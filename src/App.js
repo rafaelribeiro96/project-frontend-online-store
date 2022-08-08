@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import ProductList from './components/ProductList';
 
 export default class App extends Component {
   render() {
@@ -8,6 +9,7 @@ export default class App extends Component {
         <p data-testid="home-initial-message">
           Digite algum termo de pesquisa ou escolha uma categoria.
         </p>
+        <ProductList />
       </div>
     );
   }
