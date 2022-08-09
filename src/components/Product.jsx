@@ -3,21 +3,21 @@ import propTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 class Product extends Component {
-  addItemToCart = async (id, title, thumbnail, price) => {
-    const cartItem = { id, title, thumbnail, price, quantity: 1 };
-    const actualCart = JSON.parse(localStorage.getItem('cart'));
+  addItemtoCart = async (id, title, thumbnail, price) => {
+    const items = { id, title, thumbnail, price, quantity: 1 };
+    const cart = JSON.parse(localStorage.getItem('cart'));
     let newCart = [];
-    if (actualCart) {
-      newCart = [cartItem, ...actualCart];
+    if (cart) {
+      newCart = [items, ...cart];
       console.log(newCart);
-      if (actualCart.some((item) => item.id === cartItem.id)) {
-        newCart = actualCart;
+      if (cart.some((item) => item.id === items.id)) {
+        newCart = cart;
         newCart.forEach((item, i) => {
-          if (item.id === cartItem.id) newCart[i].quantity += 1;
+          if (item.id === items.id) newCart[i].quantity += 1;
         });
       }
       localStorage.setItem('cart', JSON.stringify(newCart));
-    } else localStorage.setItem('cart', JSON.stringify([cartItem]));
+    } else localStorage.setItem('cart', JSON.stringify([items]));
   };
 
   render() {
@@ -38,9 +38,9 @@ class Product extends Component {
         <button
           type="button"
           data-testid="product-add-to-cart"
-          onClick={ () => this.addItemToCart(id, title, thumbnail, price) }
+          onClick={ () => this.addItemtoCart(id, title, thumbnail, price) }
         >
-          Adicionar ao Carrinho
+          Add to Cart
         </button>
       </div>
     );
