@@ -3,7 +3,7 @@ import propTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 class Product extends Component {
-  addToCart = async (id, title, thumbnail, price) => {
+  addItemToCart = async (id, title, thumbnail, price) => {
     const cartItem = { id, title, thumbnail, price, quantity: 1 };
     const actualCart = JSON.parse(localStorage.getItem('cart'));
     let newCart = [];
@@ -27,13 +27,6 @@ class Product extends Component {
         <p>{ name }</p>
         <img alt="imagem" src={ img } />
         <p>{ price }</p>
-        <button
-          type="button"
-          data-testid="product-add-to-cart"
-          onClick={ () => this.addToCart(id, title, thumbnail, price) }
-        >
-          Adicionar ao Carrinho
-        </button>
         <Link
           data-testid="product-detail-link"
           to={ `/ProductDetails/${id}` }
@@ -41,6 +34,14 @@ class Product extends Component {
           Detalhes do Produto
 
         </Link>
+
+        <button
+          type="button"
+          data-testid="product-add-to-cart"
+          onClick={ () => this.addItemToCart(id, title, thumbnail, price) }
+        >
+          Adicionar ao Carrinho
+        </button>
       </div>
     );
   }
