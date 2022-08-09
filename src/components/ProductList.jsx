@@ -61,6 +61,7 @@ class ProductList extends Component {
           result.map(({ id, title, thumbnail, price }) => (
             <Product
               key={ id }
+              id={ id }
               name={ title }
               img={ thumbnail }
               price={ `Preço: ${price}` }
