@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { getCategories, showCategories } from '../services/api';
 
 export default class Categories extends Component {
@@ -16,7 +17,6 @@ export default class Categories extends Component {
 
   handleClick = async ({ target }) => {
     const { id } = target;
-    console.log(id);
     const categorieId = await showCategories(id);
     const { results } = await categorieId;
     return this.setState({ productByCategory: results });
@@ -42,7 +42,6 @@ export default class Categories extends Component {
             </li>
           ))}
         </ul>
-        {console.log(productByCategory)}
         {productByCategory.map(({ id, title, thumbnail, price }) => (
           <li
             key={ id }
@@ -51,6 +50,13 @@ export default class Categories extends Component {
             <p>{ title }</p>
             <img alt="imagem" src={ thumbnail } />
             <p>{ price }</p>
+            <Link
+              data-testid="product-detail-link"
+              to={ `/ProductDetails/${id}` }
+            >
+              Detalhes do Produto
+
+            </Link>
           </li>
         ))}
       </form>
