@@ -18,26 +18,9 @@ class ProductDetails extends Component {
     return this.setState({ title, thumbnail, price });
   }
 
-  addItemtoCart = async (id, title, thumbnail, price) => {
-    console.log('botão clicado');
-    const items = { id, title, thumbnail, price, quantity: 1 };
-    const cart = JSON.parse(localStorage.getItem('cart'));
-    let newCart = [];
-    if (cart) {
-      newCart = [items, ...cart];
-      console.log(newCart);
-      if (cart.some((item) => item.id === items.id)) {
-        newCart = cart;
-        newCart.forEach((item, i) => {
-          if (item.id === items.id) newCart[i].quantity += 1;
-        });
-      }
-      localStorage.setItem('cart', JSON.stringify(newCart));
-    } else localStorage.setItem('cart', JSON.stringify([items]));
-  };
-
   render() {
     const { title, thumbnail, price, id } = this.state;
+    const { funcAdd } = this.props;
     return (
       <div>
         <p
@@ -62,7 +45,7 @@ class ProductDetails extends Component {
         <button
           type="button"
           data-testid="product-detail-add-to-cart"
-          onClick={ () => this.addItemtoCart(id, title, thumbnail, price) }
+          onClick={ () => funcAdd(id, title, thumbnail, price) }
         >
           Add to Cart
         </button>
@@ -72,8 +55,9 @@ class ProductDetails extends Component {
 }
 
 ProductDetails.propTypes = {
+  funcAdd: PropTypes.func,
   match: PropTypes.shape({
     params: PropTypes.shape({
-      id: PropTypes.string.isRequired }) }).isRequired,
-};
+      id: PropTypes.string.isRequired }) }),
+}.isRequired;
 export default ProductDetails;

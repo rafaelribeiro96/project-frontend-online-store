@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import ProductList from '../components/ProductList';
 import Categories from '../components/Categories';
 
-export default class Cart extends Component {
+export default class Home extends Component {
   render() {
     return (
       <div>

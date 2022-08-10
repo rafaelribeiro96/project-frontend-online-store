@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { getCategories, showCategories } from '../services/api';
+import addItemToCart from '../util';
 
 export default class Categories extends Component {
   state = {
@@ -21,23 +22,6 @@ export default class Categories extends Component {
     const { results } = await categorieId;
     return this.setState({ productByCategory: results });
   }
-
-  addItemtoCart = async (id, title, thumbnail, price) => {
-    const items = { id, title, thumbnail, price, quantity: 1 };
-    const cart = JSON.parse(localStorage.getItem('cart'));
-    let newCart = [];
-    if (cart) {
-      newCart = [items, ...cart];
-      console.log(newCart);
-      if (cart.some((item) => item.id === items.id)) {
-        newCart = cart;
-        newCart.forEach((item, i) => {
-          if (item.id === items.id) newCart[i].quantity += 1;
-        });
-      }
-      localStorage.setItem('cart', JSON.stringify(newCart));
-    } else localStorage.setItem('cart', JSON.stringify([items]));
-  };
 
   render() {
     const { categoriesArray, productByCategory } = this.state;
@@ -77,7 +61,7 @@ export default class Categories extends Component {
             <button
               type="button"
               data-testid="product-add-to-cart"
-              onClick={ () => this.addItemtoCart(id, title, thumbnail, price) }
+              onClick={ () => addItemToCart(id, title, thumbnail, price) }
             >
               Add to Cart
             </button>
