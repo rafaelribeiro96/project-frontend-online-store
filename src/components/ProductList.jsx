@@ -64,7 +64,7 @@ class ProductList extends Component {
               id={ id }
               name={ title }
               img={ thumbnail }
-              price={ `Preço: ${price}` }
+              price={ price }
             />
           ))
         )}
