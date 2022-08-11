@@ -20,13 +20,13 @@ export default class Cart extends Component {
 
   removeCartItem = (target) => target.parentNode.parentNode.remove();
 
-  addProduct = () => {
+  addProduct = (actual) => {
     this.setState(({ modifyQuantity: prevQuantity }) => (
       {
         modifyQuantity: prevQuantity + 1,
       }
     ));
-    console.log('adição');
+    console.log(actual);
   }
 
   subtractProduct = () => {
@@ -41,6 +41,73 @@ export default class Cart extends Component {
     console.log('subtração');
   }
 
+  render() {
+    const { modifyQuantity, cart } = this.state;
+    const { addProduct, subtractProduct, removeCartItem } = this;
+    function buildCart() {
+      if (cart && cart.length > 0) {
+        return cart.map((actual) => {
+          const { id, title, thumbnail } = actual;
+          let { quantity, price } = actual;
+          const quantidadeAtual = quantity;
+          quantity = (quantidadeAtual + modifyQuantity);
+          const priceNovo = price;
+          price = (priceNovo * quantity);
+          return (
+            <div id={ id } key={ id }>
+              <h3 data-testid="shopping-cart-product-name">{title}</h3>
+              <img src={ thumbnail } alt={ id } />
+              <p>{price}</p>
+              <p data-testid="shopping-cart-product-quantity">
+                { quantity }
+              </p>
+              <div className="cart-product-quantity-container">
+
+                <button
+                  type="button"
+                  data-testid="product-decrease-quantity"
+                  onClick={ () => subtractProduct(actual) }
+                >
+                  -
+                </button>
+
+                <button
+                  data-testid="product-increase-quantity"
+                  type="button"
+                  onClick={ () => addProduct(actual) }
+                  /* onClick={ cart
+                    .some((check) => check.trackId === trackId) } */
+                >
+                  +
+                </button>
+
+                <button
+                  type="button"
+                  data-testid="remove-product"
+                  onClick={ ({ target }) => removeCartItem(target) }
+                >
+                  x
+                </button>
+              </div>
+            </div>
+
+          );
+        });
+      }
+      return (
+        <p data-testid="shopping-cart-empty-message">
+          Seu carrinho está vazio
+        </p>
+      );
+    }
+
+    return (
+      <div>
+        { buildCart() }
+      </div>
+    );
+  }
+
   /* render() {
     const { cart, modifyQuantity } = this.state;
     const { addProduct, subtractProduct, removeCartItem } = this;
@@ -50,6 +117,7 @@ export default class Cart extends Component {
         {storageCart.length === 0
         && (<p data-testid="shopping-cart-empty-message">Seu carrinho está vazio</p>)}
         { cart.map((actual) => {
+          console.log(cart);
           const { id, title, thumbnail } = actual;
           let { quantity, price } = actual;
           console.log(price);
@@ -104,70 +172,4 @@ export default class Cart extends Component {
       </div>
     );
   } */
-
-  render() {
-    const { modifyQuantity, cart } = this.state;
-    const { addProduct, subtractProduct, removeCartItem } = this;
-    function buildCart() {
-      if (cart && cart.length > 0) {
-        return cart.map((actual) => {
-          console.log(cart);
-          const { id, title, thumbnail } = actual;
-          let { quantity, price } = actual;
-          const quantidadeAtual = quantity;
-          quantity = (quantidadeAtual + modifyQuantity);
-          const priceNovo = price;
-          price = (priceNovo * quantity);
-          return (
-            <div id={ id } key={ id }>
-              <h3 data-testid="shopping-cart-product-name">{title}</h3>
-              <img src={ thumbnail } alt={ id } />
-              <p>{price}</p>
-              <p data-testid="shopping-cart-product-quantity">
-                { quantity }
-              </p>
-              <div className="cart-product-quantity-container">
-
-                <button
-                  type="button"
-                  data-testid="product-decrease-quantity"
-                  onClick={ ({ target }) => subtractProduct(target) }
-                >
-                  -
-                </button>
-
-                <button
-                  data-testid="product-increase-quantity"
-                  type="button"
-                  onClick={ ({ target }) => addProduct(target) }
-                >
-                  +
-                </button>
-
-                <button
-                  type="button"
-                  data-testid="remove-product"
-                  onClick={ ({ target }) => removeCartItem(target) }
-                >
-                  x
-                </button>
-              </div>
-            </div>
-
-          );
-        });
-      }
-      return (
-        <p data-testid="shopping-cart-empty-message">
-          Seu carrinho está vazio
-        </p>
-      );
-    }
-
-    return (
-      <div>
-        { buildCart() }
-      </div>
-    );
-  }
 }

@@ -43,7 +43,12 @@ export default class Categories extends Component {
             </li>
           ))}
         </ul>
-        {productByCategory.map(({ id, title, thumbnail, price }) => (
+        {productByCategory.map(({ id,
+          title,
+          thumbnail,
+          price,
+          shipping: { free_shipping: freeShipping },
+        }) => (
           <li
             key={ id }
             data-testid="product"
@@ -51,6 +56,8 @@ export default class Categories extends Component {
             <p>{ title }</p>
             <img alt="imagem" src={ thumbnail } />
             <p>{ `Preço: ${price}` }</p>
+            { freeShipping
+            && <h3 data-testid="free-shipping">Produto com frete grátis</h3>}
             <Link
               data-testid="product-detail-link"
               to={ `/ProductDetails/${id}` }
